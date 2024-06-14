@@ -1,0 +1,96 @@
+/* Reset default margin and padding */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Roboto', sans-serif; /* Menggunakan Roboto sebagai font utama */
+}
+
+/* Set background image */
+body {
+    background-image: url('https://i.ibb.co.com/mHHxsqV/abstract-flames-exploding-multi-colored-ink-paint-generated-by-ai.jpg'); /* Ganti dengan path gambar sesuai keinginan */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8); /* Warna latar belakang semi-transparan */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Menambahkan shadow untuk efek kedalaman */
+}
+
+h1, h2 {
+    color: #333; /* Warna teks untuk judul */
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: #4CAF50; /* Warna latar belakang tombol */
+    color: white; /* Warna teks tombol */
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Animasi perubahan warna latar belakang */
+}
+
+button:hover {
+    background-color: #45a049; /* Warna latar belakang tombol saat dihover */
+}
+
+input[type=text], input[type=number] {
+    padding: 8px;
+    margin: 5px;
+    width: calc(100% - 22px); /* Lebar input minus padding */
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease; /* Animasi perubahan warna border */
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Tampilan input number di Firefox */
+}
+
+input[type=text]:focus, input[type=number]:focus {
+    outline: none;
+    border-color: #4CAF50; /* Warna border saat input difokuskan */
+}
+
+/* CSS untuk notifikasi pop-up */
+.popup-notification {
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    z-index: 9999;
+    display: none; /* Mulai tersembunyi */
+    animation: fadeInOut 1s ease-out; /* Animasi fade in dan fade out */
+}
+
+.popup-notification.success {
+    background-color: #4CAF50; /* Warna hijau untuk sukses */
+}
+
+.popup-notification.error {
+    background-color: #f44336; /* Warna merah untuk gagal */
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
