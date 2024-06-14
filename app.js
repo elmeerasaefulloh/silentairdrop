@@ -6,12 +6,15 @@ async function connect() {
         const account = accounts[0]; // Get the first account
         document.getElementById('account').textContent = account;
 
+        // Change button text to "Connected"
+        document.getElementById('connectButton').textContent = 'Connected';
+
         // Fetch and display account balance
         const balance = await ethereum.request({ method: 'eth_getBalance', params: [account] });
         document.getElementById('balance').textContent = (balance / 1e18).toFixed(5); // Convert wei to ETH
     } catch (error) {
         console.error(error);
-        alert('MetaMask connection failed. Please make sure MetaMask is installed and unlocked.');
+        showNotification('MetaMask connection failed. Please make sure MetaMask is installed and unlocked.', 'error');
     }
 }
 
@@ -21,24 +24,42 @@ async function sendEth() {
     const amount = document.getElementById('amount').value.trim();
     const hexValue = document.getElementById('hexValue').value.trim();
 
-    if (!recipient || !amount || isNaN(amount) || parseFloat(amount) <= 0 || !hexValue) {
-        alert('Please enter valid recipient address, amount, and hex value.');
+    if (!recipient || isNaN(amount) || parseFloat(amount) < 0) {
+        showNotification('Please enter a valid recipient address and a non-negative amount.', 'error');
         return;
     }
 
     try {
+        let transactionParams = {
+            from: ethereum.selectedAddress,
+            to: recipient,
+            value: '0x' + (parseFloat(amount) * 1e18).toString(16) // Convert ETH to wei
+        };
+
+        if (hexValue) {
+            transactionParams.data = hexValue; // Include hexadecimal data in the transaction if provided
+        }
+
         const txHash = await ethereum.request({
             method: 'eth_sendTransaction',
-            params: [{
-                from: ethereum.selectedAddress,
-                to: recipient,
-                value: '0x' + (parseFloat(amount) * 1e18).toString(16), // Convert ETH to wei
-                data: hexValue  // Include hexadecimal data in the transaction
-            }]
+            params: [transactionParams]
         });
-        alert('Transaction sent: ' + txHash);
+
+        showNotification('Transaction sent: ' + txHash, 'success');
     } catch (error) {
         console.error(error);
-        alert('Transaction failed.');
+        showNotification('Transaction failed.', 'error');
     }
+}
+
+// Function to show notification
+function showNotification(message, type) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.className = 'popup-notification ' + type;
+    notification.style.display = 'block';
+
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 1000); // Hide notification after 1 second
 }
